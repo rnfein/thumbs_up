@@ -129,11 +129,11 @@ module ThumbsUp
     module InstanceMethods
 
       def votes_for
-        Vote.where(:voteable_id => id, :voteable_type => self.class.name, :vote => true).count
+        Vote.where(:voteable_id => id, :voteable_type => self.class.base_class.name, :vote => true).count
       end
 
       def votes_against
-        Vote.where(:voteable_id => id, :voteable_type => self.class.name, :vote => false).count
+        Vote.where(:voteable_id => id, :voteable_type => self.class.base_class.name, :vote => false).count
       end
 
       def percent_for
@@ -161,8 +161,8 @@ module ThumbsUp
       def voted_by?(voter)
         0 < Vote.where(
               :voteable_id => self.id,
-              :voteable_type => self.class.name,
-              :voter_type => voter.class.name,
+              :voteable_type => self.class.base_class.name,
+              :voter_type => voter.class.base_class.name,
               :voter_id => voter.id
             ).count
       end
